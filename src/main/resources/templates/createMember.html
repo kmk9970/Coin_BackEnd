@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+        .img {
+            padding: 20px;
+            float: left;
+            width: 500px;
+            height: 500px;
+            box-sizing: border-box;
+            border: solid;
+            margin: 20px;
+            line-height: 650px;
+        }
+
+        .input {
+            float: right;
+            padding: 50px;
+            width: 500px;
+            height: 500px;
+            box-sizing: border-box;
+            border: solid;
+            border-width: 2px;
+            margin: 20px;
+            font-size: x-large;
+        }
+
+        .mar {
+            margin: 150px;
+            margin-bottom: 100px;
+            text-align: center;
+        }
+
+        .btn {
+            text-align: center;
+            font-size: large;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="mar">
+  <div class="img">
+    <img src="image/KakaoTalk_Image_2023-12-01-01-00-09.png" alt="Image"
+         width="250">
+  </div>
+
+  <form role="form" action="/createMember" th:object="${CreateMemberForm}" method="post">
+    <div class="input">
+      아이디
+      <input type="text" th:field="*{makeId}" class="form-control" placeholder="아이디"
+             th:class="${#fields.hasErrors('makeId')}? 'form-control fieldError' : 'form-control'"><br>
+
+      비밀번호 :
+      <input type="password" th:field="*{makePass}" class="form-control" placeholder="비밀번호"
+             th:class="${#fields.hasErrors('makePass')}? 'form-control fieldError' : 'form-control'"><br>
+
+      비밀번호 확인:
+      <input type="password" th:field="*{confirm}" class="form-control" placeholder="비밀번호 재입력"
+             th:class="${#fields.hasErrors('confirm')}? 'form-control fieldError' : 'form-control'"><br>
+
+      API KEY:
+      <input type="text" th:field="*{api_key}" class="form-control" placeholder="API KEY"
+             th:class="${#fields.hasErrors('api_key')}? 'form-control fieldError' : 'form-control'"><br>
+
+      SEC KEY:
+      <input type="text" th:field="*{sec_key}" class="form-control" placeholder="SEC KEY"
+             th:class="${#fields.hasErrors('sec_key')}? 'form-control fieldError' : 'form-control'"><br>
+
+      <button type="submit" class="btn btn-primary">회원가입</button>
+    </div>
+  </form>
+</div>
+</body>
+
+</html>

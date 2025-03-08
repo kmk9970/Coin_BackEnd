@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<script  language = "JavaScript">
+    var coinList = [];
+    function ajaxdata(){
+          $.ajax({
+          url: "/login/search",
+          type: "POST",
+          async: false,   //비동기로 해야 배열을 전역변수로 쓸수 있음~!!!
+          success: function(data) {
+
+          for(var i = 0; i< data.length; i++){
+                    coinList.push(data[i].coinName);
+                    coinList.push(data[i].opening_price);
+                    console.log(data[i].coinName);
+                    }
+
+                }
+          });
+        }
+        ajaxdata();
+
+</script>
+<div data-role="page">
+    <div data-role="header">
+        <h1>코인</h1>
+    </div>
+    <div data-role="content">
+
+        <ul data-role ="listview" data-filter="true" data-filter-placeholder="검색">
+            <script>
+                let btnName = ['관심종목', '매매'];
+         function clickBtn() {
+           var buttonText = this.textContent;
+           var listItem = this.closest('li'); // 현재 버튼이 속한 li 엘리먼트 가져오기
+
+           if (buttonText === btnName[0]) {
+            var id = listItem.id; // 리스트 아이템의 ID 가져오기
+             window.location.href = '/login/coinInterest/' + id;
+           } else if (buttonText === btnName[1]) {
+             var id = listItem.id; // 리스트 아이템의 ID 가져오기
+             window.location.href = '/login/coinTrade/' + id;
+           } else {
+             var id = listItem.id; // 리스트 아이템의 ID 가져오기
+
+           }
+         }
+           function handleLiClick() {
+               var container = this.querySelector('.button-container');
+                   if (container) {
+                   container.parentNode.removeChild(container);
+                   } else {
+                   // Create a container for the buttons
+                   var buttonContainer = document.createElement("div");
+                   buttonContainer.className = "button-container";
+
+                   // Create and append three buttons
+                   for (var i = 0; i < 2; i++) {
+                       var button = document.createElement("button");
+                       if (i === 0) {
+                       button.className = "interest-button";
+                       button.textContent = btnName[i];
+                       } else {
+                       button.className = "dynamic-buttons";
+                       button.textContent = btnName[i];
+                       }
+
+                       // Append the button to the container
+                       buttonContainer.appendChild(button);
+                       button.addEventListener("click", clickBtn);
+                   }
+
+                   // Append the container to the list item
+                   this.appendChild(buttonContainer);
+                   }
+   }
+
+             for(var i =0;i<coinList.length;i+=2){
+           document.write('<li id ='+coinList[i].toString()+'>'+ '</li>');
+             }
+           function test(){
+               for (var i = 0; i<coinList.length;i+=2){
+
+                   document.getElementById(coinList[i].toString()).innerHTML=coinList[i]+''+'<span class="ui-li-aside">'+ '가격: ' +coinList[i+1]+  '</span>';
+                   document.getElementById(coinList[i].toString()).addEventListener("click",handleLiClick);
+
+               }
+
+           }
+
+
+               test();
+            </script>
+        </ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h4>승빈</h4>
+    </div>
+</div>
+</body>
+</html>

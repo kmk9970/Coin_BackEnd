@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bithigh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+
+<body style="font-family: 'Arial', sans-serif; margin: 0; padding: 0;">
+<script>
+    var name = "조승빈";
+
+    function go() {
+      location.href = '/login/search';
+    }
+    function user() {
+      location.href = '/login/myasset';
+    }
+    function coin() {
+      location.href = '/login/graph';
+    }
+    function logout() {
+      location.href = '/';
+    }
+    function Board() {
+      location.href = '/home';
+    }
+    function Excel() {
+      location.href = '/excel';
+    }
+    function Trade() {
+      location.href = '/login/statistics';
+    }
+</script>
+<header style="background-color: #333; color: #fff; padding: 10px; text-align: center;">
+    <h1>Bithigh</h1>
+</header>
+
+<nav style="float: left; width: 25%; background: #f1f1f1; padding: 20px; box-sizing: border-box; height: 100vh; overflow: auto;">
+    <div style="text-align: center;">
+        <img src="image/KakaoTalk_Image_2023-12-01-01-00-09.png" alt="Logo" width="150">
+    </div>
+    <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+         onclick="go()">코인검색</div>
+
+
+    <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+         onclick="Board()">게시판</div>
+    <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+         onclick="Excel()">거래기록 입력</div>
+    <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+         onclick="Trade()">통계</div>
+</nav>
+<div style="float: left; width: 75%; padding: 20px; box-sizing: border-box;">
+    <div
+        style="border: 3px solid green; margin: 100px 30px 30px 30px; padding: 30px; width: 20%; text-align: center; position: fixed; right: 5%; top: 0;">
+        <!--        <div style="text-align: right; margin: 30px; font-size: large;">알림 &nbsp 설정</div>-->
+        <div style="margin: 30px; font-size: large;"> 아이디: <?php echo $name; ?> <br></div>
+        <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+             onclick="logout()">로그아웃</div>
+        <div style="display: inline-block; padding: 10px 20px; margin: 5px; text-align: center; text-decoration: none; color: #fff; background-color: #4CAF50; border-radius: 5px; cursor: pointer;"
+             onclick="user()">마이페이지</div>
+
+    </div>
+
+<!--    <div style="text-align: right; margin-right: 100px; padding: 20px;">-->
+<!--       -->
+<!--    </div>-->
+    <div style="float: left; margin: 30px; text-align: center; border: solid; height: 330px;">
+        <img src="image/KakaoTalk_Image_2023-12-01-01-00-09.png" alt="Image" width="500">
+    </div>
+
+</div>
+
+</body>
+
+</html>

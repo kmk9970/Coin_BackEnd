@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>통계 페이지</title>
+    <style>
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.section {
+  border: 2px solid #333;
+  width: 80%;
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  /* Changed from column to row */
+  justify-content: space-between;
+  /* Added to space out children elements */
+  align-items: center;
+  height: 500px;
+}
+
+.title {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sub-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border: solid;
+  width: 100%;
+}
+
+.rankings,
+.coin-list {
+  width: 48%;
+  /* Adjust the width as needed */
+  border-top: 2px solid #333;
+  padding-top: 20px;
+  height: 300px;
+}
+
+.mouseHover:hover {
+  text-decoration: underline;
+}
+  </style>
+
+
+</head>
+
+<body>
+<script  language = "JavaScript">
+    var coinRank = [];
+    var userRank = [];
+    function ajaxdata(){
+          $.ajax({
+          url: "/login/statisticsApi",
+          type: "GET",
+          async: false,   //비동기로 해야 배열을 전역변수로 쓸수 있음~!!!
+          success: function(data) {
+                  for(var i =0;i<data.coinStatistics.length;i++){
+                      coinRank.push(data.coinStatistics[i]);
+                  }
+                  for(var i =0; i< data.userRank.length;i++){
+                    userRank.push(data.userRank[i]);
+                  }
+                  console.log(coinRank);
+                  console.log(userRank);
+                }
+          });
+        }
+        ajaxdata();
+// <!--        $(document).ready(function(){-->
+// <!--		setInterval(ajaxdata,1000);-->
+// <!--	 });-->
+      </script>
+<div class="container">
+    <p class="title">통계</p>
+    <div class="section">
+
+        <div class="rankings">
+            <p class="sub-title">회원순위</p>
+            <div>
+                <!-- <span class="mouseHover" onclick="showWinRatio()"> 승률 </span> /
+                <span class="mouseHover" onclick="showTotalAssets()"> 총 자산순 </span>
+                <div id="winRatioInfo" style="display: none;">
+
+                  <li>승률에 대한 정보를 여기에 표시</li>
+                </div>
+                <div id="totalAssetsInfo" style="display: none;">
+
+                  <li>총 자산순에 대한 정보를 여기에 표시</li>
+                </div> -->
+                <script>
+             function test(){
+              for(var i = 0; i<userRank.length; i+=2){
+                document.write('<li id ='+i.toString()+'>'+ userRank[i]+'&nbsp&nbsp;&nbsp;&nbsp;'
+                  +'  승률: '+userRank[i+1]+'%'+'</li>');
+              }
+            }
+          test();
+        </script>
+            </div>
+        </div>
+
+        <!-- <div id="infoArea" class="coin-list">
+            <p class="sub-title">코인리스트</p> -->
+        <!-- <div>
+            <span class="mouseHover" onclick="showBuy()"> 코인누적매수 </span> /
+            <span class="mouseHover" onclick="showWinRatioCoin"> 코인별 승률 </span>
+            <div id="buyInfo" style="display: none;">
+
+                <li>에 대한 정보를 여기에 표시</li>
+            </div>
+            <div id="winRatioCoinInfo" style="display: none;">
+
+                <li>총 자산순에 대한 정보를 여기에 표시</li>
+            </div>
+        </div> -->
+
+        <!-- <script>
+          function coinList(){
+           for(var i = 0; i<coinRank.length; i+=2){
+             document.write('<li id ='+i.toString()+'>'+ coinRank[i]+'  '+coinRank[i+1]+'개'+'</li>');
+           }
+         }
+         coinList();
+     </script>
+    </div> -->
+
+        <div id="infoArea" class="coin-list" >
+            <p class="sub-title">코인리스트</p>
+            <ul id="coinList" style="overflow-y: scroll; max-height: 250px;"></ul>
+            <script>
+              function coinList() {
+
+                  var listElement = document.getElementById('coinList');
+                  for (var i = 0; i < coinRank.length; i += 2) {
+                      var listItem = document.createElement('li');
+                      listItem.id = i.toString();
+                      listItem.innerHTML = coinRank[i] + ' ' + coinRank[i + 1] + '개';
+                      listElement.appendChild(listItem);
+                  }
+              }
+              coinList();
+          </script>
+        </div>
+
+    </div>
+</div>
+
+<!-- <script>
+  function showWinRatio() {
+    document.getElementById("winRatioInfo").style.display = "block";
+    document.getElementById("totalAssetsInfo").style.display = "none";
+  }
+
+  function showTotalAssets() {
+    document.getElementById("winRatioInfo").style.display = "none";
+    document.getElementById("totalAssetsInfo").style.display = "block";
+  }
+  function showBuy() {
+    document.getElementById("buyInfo").style.display = "block";
+    document.getElementById("winRatioCoinInfo").style.display = "none";
+  }
+
+  function showWinRatioCoin() {
+    document.getElementById("buyInfo").style.display = "none";
+    document.getElementById("winRatioCoinInfo").style.display = "block";
+  }
+
+
+
+  //승률
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch win ratio rankings from the server
+    fetch("getWinRatioRankings.php")
+      .then(response => response.json())
+      .then(data => {
+        // Assuming there's an element with the id "winRatioInfo" to display the data
+        const winRatioInfo = document.getElementById("winRatioInfo");
+
+        // Clear any existing content
+        winRatioInfo.innerHTML = "";
+
+        // Display the fetched data
+        data.forEach(entry => {
+          const paragraph = document.createElement("li");
+          paragraph.textContent = `${entry.username}: ${entry.win_ratio}%`;
+          winRatioInfo.appendChild(paragraph);
+        });
+      })
+      .catch(error => console.error("Error fetching win ratio data:", error));
+  });
+
+
+  //총자산순
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch win ratio rankings from the server
+    fetch("getWinRatioRankings.php")
+      .then(response => response.json())
+      .then(data => {
+        // Assuming there's an element with the id "winRatioInfo" to display the data
+        const totalAssetsInfo = document.getElementById("totalAssetsInfo");
+
+        // Clear any existing content
+        totalAssetsInfo.innerHTML = "";
+
+        // Display the fetched data
+        data.forEach(entry => {
+          const paragraph = document.createElement("li");
+          paragraph.textContent = `${entry.username}: ${entry.asset}%`;
+          totalAssetsInfo.appendChild(paragraph);
+        });
+      })
+      .catch(error => console.error("Error fetching win ratio data:", error));
+  });
+
+
+  //코인누적매수
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch win ratio rankings from the server
+    fetch("getWinRatioRankings.php")
+      .then(response => response.json())
+      .then(data => {
+        // Assuming there's an element with the id "winRatioInfo" to display the data
+        const buyInfo = document.getElementById("buyInfo");
+
+        // Clear any existing content
+        buyInfo.innerHTML = "";
+
+        // Display the fetched data
+        data.forEach(entry => {
+          const paragraph = document.createElement("li");
+          paragraph.textContent = `${entry.username}: ${entry.buy}%`;
+          buyInfo.appendChild(paragraph);
+        });
+      })
+      .catch(error => console.error("Error fetching win ratio data:", error));
+  });
+
+
+  //코인별 승률
+  document.addEventListener("DOMContentLoaded", function () {
+    // Fetch win ratio rankings from the server
+    fetch("getWinRatioRankings.php")
+      .then(response => response.json())
+      .then(data => {
+        // Assuming there's an element with the id "winRatioInfo" to display the data
+        const winRatioCoinInfo = document.getElementById("winRatioCoinInfo");
+
+        // Clear any existing content
+        winRatioCoinInfo.innerHTML = "";
+
+        // Display the fetched data
+        data.forEach(entry => {
+          const paragraph = document.createElement("li");
+          paragraph.textContent = `${entry.username}: ${entry.winRatioCoin}%`;
+          winRatioCoinInfo.appendChild(paragraph);
+        });
+      })
+      .catch(error => console.error("Error fetching win ratio data:", error));
+  });
+</script> -->
+</body>
+
+</html>

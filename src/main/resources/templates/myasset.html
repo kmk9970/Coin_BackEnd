@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Google Charts Tutorial</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { packages: ['corechart'] });
+    </script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        #chartContainer {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #chart,
+        #profitRate {
+            width: 50%;
+            margin: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #chart {
+            height: 500px;
+        }
+
+        #profitRate {
+            text-align: center;
+        }
+        #userCash,
+        #winRateValue,
+        #totalAmount {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+        #interestSection {
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        max-height: 300px; /* Set a max height for the interest section */
+    }
+
+    #interestList {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #interestList li {
+        margin-bottom: 10px;
+    }
+    </style>
+</head>
+
+<body>
+<div id="chartContainer">
+    <div id="chart">
+        <h2>Browser Market Share</h2>
+    </div>
+    <div id="profitRate">
+        <h2>Performance</h2>
+        <p><span id="userCash">User Cash</span></p>
+        <p><span id="winRateValue">Win Rate</span></p>
+        <p><span id="totalAmount">Total Asset</span></p>
+        <br><br>
+        <h2>Interest Coin</h2>
+        <ul id="coinList" style="overflow-y: scroll; max-height: 250px;"></ul>
+    </div>
+</div>
+<script language="JavaScript">
+        function drawChart() {
+            var ans = [];
+            var win_rate;
+            var amount;
+            var interest = [];
+            var userCash;
+            $.ajax({
+                url: "/myPageApi",
+                type: "GET",
+                dataType: 'json',
+                async: false,
+                success: function (info) {
+                    for (var i = 0; i < info.coinList.length; i += 2) {
+                        var state = [];
+                        state.push(info.coinList[i]);
+                        state.push(parseFloat(info.coinList[i + 1]));
+                        ans.push(state);
+                    }
+                    for(var i = 0 ; i<info.userInterest.length;i++){
+                      interest.push(info.userInterest[i]);
+                    }
+                    win_rate = info.win_rate;
+                    amount = info.user_amount;
+                    userCash = info.userCash;
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Browser');
+                    data.addColumn('number', 'Percentage');
+                    data.addRows(ans);
+
+                    var options = {
+                        'title': 'Browser market shares at a specific website, 2014',
+                        'width': 500,
+                        'height': 500,
+                        is3D: true
+                    };
+
+                    var chart = new google.visualization.PieChart(document.getElementById('chart'));
+                    chart.draw(data, options);
+
+                    // Display win_rate value
+                    document.getElementById('winRateValue').innerText = 'Win Rate: ' + win_rate;
+
+                    // Display total asset value
+                    document.getElementById('totalAmount').innerText = 'Total Asset: ' + amount;
+
+                    document.getElementById('userCash').innerText = 'userCash: ' + userCash+'원';
+                    var listElement = document.getElementById('coinList');
+                    for (var i = 0; i < interest.length; i ++) {
+                      var listItem = document.createElement('li');
+                      listItem.id = i.toString();
+                      listItem.innerHTML = interest[i] ;
+                      listElement.appendChild(listItem);
+                    }
+                }
+            });
+        }
+
+        google.charts.setOnLoadCallback(drawChart);
+    </script>
+</body>
+
+</html>

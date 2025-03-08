@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form role="form" action="/login/coinPriceInsert" th:object="${CoinInput}"
+      method="post">
+    <input type="text" th:field="*{coinName}" class="form-control" placeholder="코인이름"
+           th:class="${#fields.hasErrors('coinName')}? 'form-control
+  fieldError' : 'form-control'">
+    <button type="submit">검색</button>
+</form>
+</body>
+</html>

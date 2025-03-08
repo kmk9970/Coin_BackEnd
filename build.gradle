@@ -1,0 +1,64 @@
+plugins {
+	id 'java'
+	//id 'org.springframework.boot' version '2.6.0' // Spring Boot 버전 업데이트
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'xerces', name: 'xercesImpl', version: '2.11.0'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+	implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.5'
+	implementation group: 'org.json', name: 'json', version: '20090211'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.9'
+	implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4.1', version: '1.16'
+	///implementation 'org.tensorflow:tensorflow:2.10.0' // TensorFlow 의존성 추가, 버전은 원하는 버전으로 변경
+
+	// Apache POI 라이브러리 (엑셀 파일 읽기 위해)
+	implementation 'org.apache.poi:poi:5.0.0'
+	implementation 'org.apache.poi:poi-ooxml:5.0.0'
+	implementation 'org.jsoup:jsoup:1.15.3'
+
+	implementation 'com.auth0:java-jwt:4.2.1'
+	//implementation 'org.apache.httpcomponents.client5:httpclient5:5.1'
+	implementation 'org.apache.httpcomponents:httpclient:4.5'
+
+	//swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+
+
+
+
+	// 스레드 관련 의존성 추가
+	//implementation 'org.springframework.boot:spring-boot-starter-task' // 스케쥴링 및 스레드 풀 관리
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

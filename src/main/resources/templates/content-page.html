@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/style.css">
+  <title>게시판</title>
+  <nav>글 보기 화면</nav>
+</head>
+<body>
+<div>
+  <br/>
+  <div align="center">
+    <form th:action="@{/content/{id} (id=${content.id})}" th:method="post">
+      <div class="form-group" align="left">
+        <div th:text="'글 제목 : ' + ${content.title}"></div>
+        <br/>
+        <div th:text="'작성자 : ' + ${content.writer}"></div>
+        <br/>
+        <label for="texts">글 내용 : </label>
+        <br/><br/>
+        <textarea id="texts" name="texts">[[${content.texts}]]</textarea>
+        <br/>
+      </div>
+      <button th:formaction="@{/content/like/{id} (id=${content.id})}" type="submit">좋아요</button>
+      <div th:text="'좋아요: '+ ${content.good}"></div>
+      <button type="submit" style="margin-right: 50px">수정</button>
+      <button th:formaction="@{/content/delete/{id} (id=${content.id})}"
+              type="submit">삭제</button>
+      <div>
+        <br>
+        <span>댓글 내용</span>
+        <br>
+        <!--                <input type="text" id="commentText" name="commentText" width="200px">-->
+        <textarea id="commentText" name="commentText"></textarea>
+        <button th:formaction="@{/content/addComment/{id} (id=${content.id})}" type="submit">댓글 추가</button>
+
+        <table>
+          <thead>
+          <tr>
+            <th width="200">유저</th>
+            <th width="400">댓글</th>
+            <th width="200">버튼</th>
+          </tr>
+          </thead>
+          <tbody align="center">
+          <tr th:each="comment:${content.comments}">
+            <td th:text="${comment.writer}"></td>
+            <td th:text="${comment.text}"></td>
+            <!-- 삭제버튼 고장남      <td><button th:formaction="@{/content/deleteComment/{id} (id=${comment.id})}" type="submit">삭제</button></td>-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </form>
+  </div>
+</div>
+</body>
+</html>
